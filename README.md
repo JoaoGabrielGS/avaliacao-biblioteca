@@ -1,5 +1,4 @@
 # Avaliação Front-End (Vue/Prime)
-
 ## Objetivo
 Esta avaliação tem como objetivo avaliar a capacidade técnica em tecnologias utilizadas para desenvolvimento front-end.
 
