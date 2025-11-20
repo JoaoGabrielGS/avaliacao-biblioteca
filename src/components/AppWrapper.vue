@@ -3,6 +3,10 @@ import { RouterLink, RouterView } from 'vue-router'
 import Toast from 'primevue/toast'
 import { isArray } from '@/utils/utils.js'
 import ProfileDropDown from './ui/ProfileDropDown.vue'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const menus = [
     { label: 'Home', icon: 'pi pi-home', path: '/home' },
@@ -10,6 +14,10 @@ const menus = [
     { label: 'Autores', icon: 'pi pi-users', path: '/autores' },
     { label: 'Editoras', icon: 'pi pi-building', path: '/editoras' }
 ]
+
+onMounted(() => {
+    router.push('/home')
+})
 </script>
 
 <template>
