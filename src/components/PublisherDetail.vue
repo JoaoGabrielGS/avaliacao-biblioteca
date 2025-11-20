@@ -1,13 +1,17 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBooksStore } from '@/stores/book'
 import Separator from '@/components/ui/Separator.vue'
 import AppBookCard from '@/components/book/AppBookCard.vue'
+import BookModal from './book/BookModal.vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = useBooksStore()
+
+const selectedBook = ref(null)
+const modalOpen = ref(false)
 
 const publisherId = computed(() => Number(route.params.id))
 const publisher = computed(() => store.getPublisherById(publisherId.value))
@@ -22,6 +26,17 @@ const publisherBooks = computed(() => {
             publisherName: publisher.value.name
         }))
 })
+
+const openBookDetail = (book) => {
+    selectedBook.value = book
+    modalOpen.value = true
+}
+
+const closeModal = () => {
+    modalOpen.value = false
+    setTimeout(() => selectedBook.value = null, 300)
+}
+
 
 onMounted(() => {
     if (!publisher.value) {
@@ -68,9 +83,11 @@ onMounted(() => {
 
                 <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     <AppBookCard v-for="book in publisherBooks" :key="book.id" :book="book"
-                        @open-modal="(b) => $router.push(`/livros/${b.id}`)" />
+                        @open-modal="openBookDetail" />
                 </div>
             </div>
         </div>
+
+        <BookModal :book="selectedBook" :is-open="modalOpen" @close="closeModal" />
     </div>
 </template>
